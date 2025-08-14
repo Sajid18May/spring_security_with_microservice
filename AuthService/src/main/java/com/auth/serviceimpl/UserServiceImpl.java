@@ -1,10 +1,13 @@
 package com.auth.serviceimpl;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.auth.dto.APIResponse;
 import com.auth.dto.UserDto;
+import com.auth.entity.AppUser;
 import com.auth.repository.UserRepository;
 import com.auth.service.UserService;
 
@@ -12,6 +15,8 @@ import com.auth.service.UserService;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository repository;
+	@Autowired
+	PasswordEncoder encoder;
 
 	@Override
 	public APIResponse<String> userRegistration(UserDto dto) {
@@ -28,6 +33,10 @@ public class UserServiceImpl implements UserService {
 			apiResponse.setData("Duplicate Email");
 			return apiResponse;
 		}
+		AppUser user=new AppUser();
+		BeanUtils.copyProperties(dto, user);
+		user.setPassword(encoder.encode(dto.getPassword()));
+		repository.save(user);
 		apiResponse.setMessage("Registration Successful");
 		apiResponse.setStatus(201);
 		apiResponse.setData("Success");
