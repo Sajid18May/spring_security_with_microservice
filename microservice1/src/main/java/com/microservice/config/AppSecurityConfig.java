@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -12,7 +13,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.microservice.filter.JwtFilter;
 
 @Configuration
-public class SecurityConfig {
+@EnableWebSecurity
+public class AppSecurityConfig {
 	
 	@Autowired
     private JwtFilter filter;
@@ -35,15 +37,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityConfig(HttpSecurity http) throws Exception {
         
-        http.authorizeRequests(req -> {
+        http.authorizeHttpRequests(req ->
             req.requestMatchers(publicEndpoints)
                 .permitAll()
                 .requestMatchers("/welcome").hasRole("ADMIN")  // Ensure no "ROLE_" prefix is used here
                 .anyRequest()
-                .authenticated();
-        })
+                .authenticated()
+        )
         .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
         
-        return http.csrf().disable().build();
+        return http.csrf(csrf->csrf.disable()).build();
     }
 }
