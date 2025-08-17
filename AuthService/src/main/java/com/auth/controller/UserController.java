@@ -1,11 +1,13 @@
 package com.auth.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auth.dto.APIResponse;
 import com.auth.dto.LoginDto;
 import com.auth.dto.UserDto;
+import com.auth.entity.AppUser;
 import com.auth.serviceimpl.JwtService;
 import com.auth.serviceimpl.UserServiceImpl;
 
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -51,6 +54,11 @@ public class UserController {
 		response.setStatus(401);
 		response.setData("Wrong username or Password");
 		return new ResponseEntity<APIResponse<String>>(response, HttpStatusCode.valueOf(response.getStatus()));
+	}
+	
+	@GetMapping("/getUser")
+	public AppUser getUserByUsername(@RequestParam String username) {
+		return userServiceImpl.getUserByUsername(username);
 	}
 	
 	
