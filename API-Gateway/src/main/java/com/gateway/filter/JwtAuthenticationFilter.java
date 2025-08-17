@@ -23,8 +23,8 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered{
 	 private static final String SECRET_KEY = "secret12345";
 
 	    private static final List<String> openApiEndpoints = List.of(
-	            "/auth/api/v1/auth/login",
-	            "/auth/api/v1/auth/register"
+	            "/auth/auth/v1/login",
+	            "/auth/auth/v1/register"
 	    );
 
 	    private static final Map<String, List<String>> protectedEndpointsWithRoles = Map.of(
