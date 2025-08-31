@@ -10,7 +10,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 @Service
 public class JwtService {
 	
-	private static final String SECRET_KEY="Secret12345";
+	private static final String SECRET_KEY="secret12345";
 	private static final long EXPIRATION_TIME=86400000;
 
 	

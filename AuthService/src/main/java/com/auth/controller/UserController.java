@@ -61,6 +61,4 @@ public class UserController {
 		return userServiceImpl.getUserByUsername(username);
 	}
 	
-	
-
 }

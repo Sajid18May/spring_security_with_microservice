@@ -1,6 +1,6 @@
 spring:
   application:
-    name: AuthService
+    name: AUTHSERVICEAPP
   datasource:
     url: jdbc:mysql://localhost:3306/authservicedb
     username: root
